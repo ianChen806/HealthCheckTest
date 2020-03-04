@@ -29,8 +29,7 @@ namespace HealthCheckTest
         {
             services.AddControllers();
             services.AddHealthChecks()
-                    .AddCheck<CustomerHealthCheck1>("test_Check1")
-                    .AddCheck<CustomerHealthCheck2>("test_Check2");
+                    .AddCheck<CustomerHealthCheck1>("test_Check1");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

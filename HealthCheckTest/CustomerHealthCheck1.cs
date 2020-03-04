@@ -7,20 +7,19 @@ namespace HealthCheckTest
 {
     public class CustomerHealthCheck1 : IHealthCheck
     {
-        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = new CancellationToken())
+        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
+                                                        CancellationToken cancellationToken = new CancellationToken())
         {
-            var healthCheckResult = HealthCheckResult.Healthy();
-
-            return Task.FromResult(healthCheckResult);
+            var result = MyDb.IsExists 
+                ? HealthCheckResult.Healthy() 
+                : HealthCheckResult.Unhealthy();
+            
+            return Task.FromResult(result);
         }
     }
-    public class CustomerHealthCheck2 : IHealthCheck
-    {
-        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = new CancellationToken())
-        {
-            var healthCheckResult = HealthCheckResult.Healthy();
 
-            return Task.FromResult(healthCheckResult);
-        }
+    public class MyDb
+    {
+        public static bool IsExists => false;
     }
 }
