@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -48,7 +50,16 @@ namespace HealthCheckTest
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/Test");
+                endpoints.MapHealthChecks("/Test1",new HealthCheckOptions()
+                {
+                    Predicate = r=>r.Name == "test_Check1",
+                    ResponseWriter = (context, report) => context.Response.WriteAsync("check1 done")
+                });
+                endpoints.MapHealthChecks("/Test2",new HealthCheckOptions()
+                {
+                    Predicate = r=>r.Name == "test_Check2",
+                    ResponseWriter = (context, report) => context.Response.WriteAsync("check2 done")
+                });
             });
         }
     }
